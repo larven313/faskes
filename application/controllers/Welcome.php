@@ -3,43 +3,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Welcome extends CI_Controller
 {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/userguide3/general/urls.html
-	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('User_model');
+		$this->load->model('Faskes_model');
+		$this->load->model('Jenis_Faskes_model');
+		$this->load->model('Kecamatan_model');
+	}
 	public function index()
 	{
 		$name = "Jhon";
+		// $data['queryAllFaskes'] = $this->Faskes_model->join3table($perpage, $offset)->result();
+		$faskes = $this->db->count_all('faskes');
+		// $this->load->view('header');
 
-		$this->load->view('welcome_message', [
-			'name' => $name,
-			'title' => 'STT Nurul FIkri'
+		// print_r($faskes);
+		// die;
+		$this->load->view('layouts/header_index');
+		$this->load->view('landing/index', [
+			'jmlhFaskes' => $faskes
 		]);
+		$this->load->view('layouts/footer');
 	}
-
-	// public function mhs()
-	// {
-	// 	// $this->load->model('Mahasiswa_model', 'mhs1');
-	// 	$this->load->model('mahasiswa_model', 'mhs1');
-
-	// 	$mhs1->id = 1;
-	// 	$mhs1->nama = "Budi Setiawan";
-	// 	$mhs1->gender = 'L';
-	// 	$mhs1->ipk = 3.82;
-
-	// 	$data['mahasiswa'] = $mhs1;
-	// 	$this->load->view('welcome_message', $data);
-	// }
 }
